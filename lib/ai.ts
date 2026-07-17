@@ -1,5 +1,6 @@
-const GEMINI_API_URL =
-  "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent";
+import { CHARACTER_PRESETS, type CharacterPreset } from "./characters";
+
+const GEMINI_API_URL = "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent";
 
 function getApiKey(): string | null {
   return process.env.GEMINI_API_KEY ?? null;
@@ -10,22 +11,32 @@ interface ScriptResult {
   error?: string;
 }
 
-export async function generateScript(topic: string): Promise<ScriptResult> {
+export async function generateScript(
+  topic: string,
+  preset?: CharacterPreset
+): Promise<ScriptResult> {
+  const p = preset ?? CHARACTER_PRESETS[0];
+  const speakerNames = p.speakers.map((s) => s.name);
+  const speakerStyles = p.speakers
+    .map((s) => `- ${s.name}: ${s.style}`)
+    .join("\n");
+
   const apiKey = getApiKey();
 
-  const prompt = `Generate a short, funny dialogue between Peter Griffin and Stewie Griffin from Family Guy about the topic: "${topic}".
+  const prompt = `Generate a short, funny dialogue between ${speakerNames.join(" and ")} from "${p.name}" about the topic: "${topic}".
+
+Character styles:
+${speakerStyles}
 
 Format each line EXACTLY like this:
-Peter: <Peter's dialogue>
-Stewie: <Stewie's dialogue>
+${speakerNames[0]}: <dialogue>
+${speakerNames[1]}: <dialogue>
 
 Rules:
 - Make it hilarious and in-character
-- Peter should be loud, impulsive, and not very bright
-- Stewie should be sophisticated, sarcastic, and use big words
 - Keep it 6-10 lines total (3-5 exchanges)
-- Make sure every line starts with "Peter:" or "Stewie:"
-- No narration, no stage directions, no quotation marks`;
+- Every line must start with "${speakerNames[0]}:" or "${speakerNames[1]}:"
+- No narration, no stage directions`;
 
   if (apiKey) {
     try {
@@ -40,9 +51,7 @@ Rules:
 
       if (!response.ok) {
         const error = await response.text().catch(() => "");
-        throw new Error(
-          `Gemini API error (${response.status}): ${error.slice(0, 200)}`,
-        );
+        throw new Error(`Gemini API error (${response.status}): ${error.slice(0, 200)}`);
       }
 
       const data = await response.json();
@@ -51,8 +60,13 @@ Rules:
       const lines = text
         .split("\n")
         .map((l: string) => l.trim())
-        .filter((l: string) => /^(Peter|Stewie):/i.test(l))
-        .map((l: string) => l.replace(/^\*+/g, "").replace(/\*+$/g, "").trim());
+        .filter(
+          (l: string) =>
+            new RegExp(`^(${speakerNames.join("|")}):`, "i").test(l)
+        )
+        .map((l: string) =>
+          l.replace(/^\*+/g, "").replace(/\*+$/g, "").trim()
+        );
 
       if (lines.length >= 2) {
         return { script: lines.join("\n") };
@@ -62,31 +76,5 @@ Rules:
     }
   }
 
-  return generateFallbackScript(topic);
-}
-
-function generateFallbackScript(topic: string): ScriptResult {
-  const templates = [
-    `Peter: Hey, check it out! I was thinking about ${topic} and I've got some great ideas!
-Stewie: Oh, this ought to be good. Do regale us with your half-baked theories, Father.
-Peter: Hey, I'm serious! ${topic} is more important than people give it credit for!
-Stewie: Is that so? And what, pray tell, makes you such an authority on the subject?
-Peter: I read a thing! Well, I saw a picture. But it was a very informative picture!
-Stewie: Remarkable. A picture. I'm convinced. Truly, the intellectual giant of Quahog speaks.`,
-    `Peter: Lois, get in here! I just figured out everything about ${topic}!
-Stewie: Heaven help us. What fresh insanity is this?
-Peter: It's all about the fundamentals, Stewie! You gotta understand the basics of ${topic}!
-Stewie: And you, a man who once tried to pay for groceries with Monopoly money, understand the basics?
-Peter: That was different! That money had a little mustache guy on it! This is real stuff!
-Stewie: I need a drink. And I'm an infant. That's how much this conversation warrants it.`,
-    `Peter: Hey Stewie, you know what's cool? ${topic}. That's what's cool.
-Stewie: Is this going somewhere, or are we simply stating obvious observations?
-Peter: I'm getting there! So, ${topic} is like... it's like a chicken. Only different.
-Stewie: A chicken. You're comparing ${topic} to a chicken. I need a new family.
-Peter: No wait, hear me out! Chickens lay eggs, right? And ${topic} is about stuff happening!
-Stewie: I believe I speak for everyone when I say that was the single worst analogy in human history.
-Peter: YOU'RE a bad analogy!`,
-  ];
-
-  return { script: templates[Math.floor(Math.random() * templates.length)] };
+  return { script: p.defaultScript };
 }

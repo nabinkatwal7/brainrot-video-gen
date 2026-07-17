@@ -9,10 +9,10 @@ export default function HomePage() {
       <main className="flex-1">
         <section className="mx-auto max-w-6xl px-6 pt-28 pb-16 text-center">
           <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold tracking-tight leading-tight">
-            Create AI Family Guy Videos
+            Create Brainrot Videos Instantly
           </h1>
           <p className="mt-4 text-lg sm:text-xl text-black/60 dark:text-white/60 max-w-2xl mx-auto">
-            Turn any topic into a hilarious Peter &amp; Stewie conversation with AI voice cloning and Minecraft backgrounds
+            Pick your favorite characters, enter a topic, and get a viral-ready video with AI voice cloning and gaming backgrounds
           </p>
           <div className="mt-8 flex items-center justify-center gap-4">
             <Link
@@ -41,13 +41,10 @@ export default function HomePage() {
             <div className="absolute bottom-3 left-3 rounded-md bg-black/70 px-2 py-0.5 text-xs text-white">
               0:45
             </div>
-            <div className="absolute bottom-3 right-3 text-xs text-white/80">
-              &#9679; Jun 21, 2025
-            </div>
           </div>
           <p className="mt-3 text-center font-semibold text-lg">how to make eggs</p>
           <p className="mt-1 text-center text-sm text-black/50 dark:text-white/50 max-w-md mx-auto">
-            &ldquo;how to make eggs&rdquo; &rarr; Instant Family Guy comedy gold with Peter and Stewie&rsquo;s hilarious take on this cooking tutorial
+            Turn any topic into a hilarious skit with Family Guy, Breaking Bad, SpongeBob, and more
           </p>
         </section>
 
@@ -58,28 +55,54 @@ export default function HomePage() {
               <div className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-black text-white text-lg font-bold dark:bg-white dark:text-black">
                 1
               </div>
-              <h3 className="font-semibold text-lg">Choose Your Topic</h3>
+              <h3 className="font-semibold text-lg">Pick Characters &amp; Topic</h3>
               <p className="mt-1 text-sm text-black/60 dark:text-white/60">
-                Enter any topic and our AI creates a hilarious Peter &amp; Stewie dialogue
+                Choose from character packs like Family Guy, Breaking Bad, or SpongeBob. Then enter any topic.
               </p>
             </div>
             <div className="text-center">
               <div className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-black text-white text-lg font-bold dark:bg-white dark:text-black">
                 2
               </div>
-              <h3 className="font-semibold text-lg">Voice Magic</h3>
+              <h3 className="font-semibold text-lg">AI Generates the Script</h3>
               <p className="mt-1 text-sm text-black/60 dark:text-white/60">
-                Perfect voice cloning brings Peter and Stewie to life with authentic performances
+                AI writes an in-character dialogue, then voice cloning brings each line to life.
               </p>
             </div>
             <div className="text-center">
               <div className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-black text-white text-lg font-bold dark:bg-white dark:text-black">
                 3
               </div>
-              <h3 className="font-semibold text-lg">Viral Ready</h3>
+              <h3 className="font-semibold text-lg">Download Viral Video</h3>
               <p className="mt-1 text-sm text-black/60 dark:text-white/60">
-                Minecraft backgrounds, subtitles, and vertical format optimized for social media
+                1080×1920 vertical video with captions, character overlays, and gaming backgrounds.
               </p>
+            </div>
+          </div>
+        </section>
+
+        <section className="mx-auto max-w-5xl px-6 pb-24">
+          <h2 className="text-center text-2xl sm:text-3xl font-bold tracking-tight mb-12">Character Presets</h2>
+          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+            <div className="rounded-2xl border border-black/10 dark:border-white/15 p-5 text-center">
+              <div className="text-3xl mb-2">👨‍👦</div>
+              <h3 className="font-semibold">Family Guy</h3>
+              <p className="mt-1 text-xs text-black/50 dark:text-white/50">Peter &amp; Stewie</p>
+            </div>
+            <div className="rounded-2xl border border-black/10 dark:border-white/15 p-5 text-center">
+              <div className="text-3xl mb-2">🧪</div>
+              <h3 className="font-semibold">Breaking Bad</h3>
+              <p className="mt-1 text-xs text-black/50 dark:text-white/50">Walter &amp; Jesse</p>
+            </div>
+            <div className="rounded-2xl border border-black/10 dark:border-white/15 p-5 text-center">
+              <div className="text-3xl mb-2">🌊</div>
+              <h3 className="font-semibold">SpongeBob</h3>
+              <p className="mt-1 text-xs text-black/50 dark:text-white/50">SpongeBob &amp; Squidward</p>
+            </div>
+            <div className="rounded-2xl border border-black/10 dark:border-white/15 p-5 text-center">
+              <div className="text-3xl mb-2">🏙️</div>
+              <h3 className="font-semibold">GTA San Andreas</h3>
+              <p className="mt-1 text-xs text-black/50 dark:text-white/50">CJ solo</p>
             </div>
           </div>
         </section>

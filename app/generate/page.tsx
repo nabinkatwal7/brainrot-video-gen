@@ -1,7 +1,8 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useState, useCallback } from "react";
 import { parseScript, uniqueSpeakers } from "@/lib/script-parser";
+import { CHARACTER_PRESETS, type CharacterPreset } from "@/lib/characters";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 
@@ -12,8 +13,6 @@ interface AssetOption {
 
 interface AssetsResponse {
   backgrounds: AssetOption[];
-  voices: AssetOption[];
-  characters: AssetOption[];
 }
 
 interface Job {
@@ -36,6 +35,10 @@ export default function GeneratePage() {
   const [submitError, setSubmitError] = useState<string | null>(null);
   const [submitting, setSubmitting] = useState(false);
 
+  const [selectedPreset, setSelectedPreset] = useState<CharacterPreset>(
+    CHARACTER_PRESETS[0]
+  );
+
   useEffect(() => {
     fetch("/api/assets")
       .then((r) => r.json())
@@ -53,6 +56,14 @@ export default function GeneratePage() {
       return [];
     }
   }, [script]);
+
+  const handlePresetChange = useCallback((presetId: string) => {
+    const preset = CHARACTER_PRESETS.find((p) => p.id === presetId);
+    if (preset) {
+      setSelectedPreset(preset);
+      setScript(preset.defaultScript);
+    }
+  }, []);
 
   useEffect(() => {
     if (!job || job.status === "done" || job.status === "error") return;
@@ -73,7 +84,10 @@ export default function GeneratePage() {
       const res = await fetch("/api/generate-script", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ topic: topic.trim() }),
+        body: JSON.stringify({
+          topic: topic.trim(),
+          presetId: selectedPreset.id,
+        }),
       });
       const data = await res.json();
       if (!res.ok) {
@@ -91,7 +105,7 @@ export default function GeneratePage() {
   async function handleGenerateVideo() {
     setSubmitError(null);
     if (speakers.length === 0) {
-      setSubmitError("Generate a script first with at least one speaker.");
+      setSubmitError("Generate a script first.");
       return;
     }
     if (!background) {
@@ -102,8 +116,10 @@ export default function GeneratePage() {
     try {
       const voiceBySpeaker: Record<string, string> = {};
       const characterBySpeaker: Record<string, string> = {};
-      for (const s of speakers) {
-        if (assets?.voices[0]) voiceBySpeaker[s] = assets.voices[0].file;
+
+      for (const s of selectedPreset.speakers) {
+        voiceBySpeaker[s.name] = s.voiceFile;
+        characterBySpeaker[s.name] = s.characterImage;
       }
 
       const res = await fetch("/api/generate", {
@@ -134,13 +150,47 @@ export default function GeneratePage() {
   return (
     <div className="flex min-h-screen flex-col">
       <Header />
-      <main className="flex-1 mx-auto w-full max-w-3xl px-6 pt-24 pb-16">
+      <main className="flex-1 mx-auto w-full max-w-4xl px-6 pt-24 pb-16">
         <h1 className="text-2xl font-bold tracking-tight">Create a Video</h1>
         <p className="mt-1 text-sm text-black/50 dark:text-white/50">
-          Enter a topic and our AI will write a hilarious Peter &amp; Stewie dialogue.
+          Pick your characters, enter a topic, and generate a viral video.
         </p>
 
-        <div className="mt-8 flex flex-col gap-2">
+        <div className="mt-8">
+          <label className="font-medium text-sm block mb-2">
+            Character Preset
+          </label>
+          <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+            {CHARACTER_PRESETS.map((preset) => (
+              <button
+                key={preset.id}
+                onClick={() => handlePresetChange(preset.id)}
+                className={`text-left rounded-xl border p-3 transition-all ${
+                  selectedPreset.id === preset.id
+                    ? "border-black dark:border-white bg-black/5 dark:bg-white/5"
+                    : "border-black/10 dark:border-white/15 hover:border-black/30 dark:hover:border-white/30"
+                }`}
+              >
+                <div className="font-semibold text-sm">{preset.name}</div>
+                <div className="mt-1 text-xs text-black/50 dark:text-white/50 line-clamp-2">
+                  {preset.description}
+                </div>
+                <div className="mt-1.5 flex gap-1 flex-wrap">
+                  {preset.speakers.map((s) => (
+                    <span
+                      key={s.name}
+                      className="inline-block rounded-md bg-black/10 dark:bg-white/10 px-1.5 py-0.5 text-[10px]"
+                    >
+                      {s.name}
+                    </span>
+                  ))}
+                </div>
+              </button>
+            ))}
+          </div>
+        </div>
+
+        <div className="mt-6 flex flex-col gap-2">
           <label className="font-medium text-sm" htmlFor="topic">Topic</label>
           <div className="flex gap-2">
             <input
@@ -148,7 +198,9 @@ export default function GeneratePage() {
               type="text"
               value={topic}
               onChange={(e) => setTopic(e.target.value)}
-              onKeyDown={(e) => { if (e.key === "Enter") handleGenerateScript(); }}
+              onKeyDown={(e) => {
+                if (e.key === "Enter") handleGenerateScript();
+              }}
               placeholder="e.g. how to make eggs, why the sky is blue..."
               className="flex-1 rounded-xl border border-black/10 dark:border-white/15 bg-transparent px-4 py-2.5 text-sm outline-none focus:border-black/30 dark:focus:border-white/30 transition-colors"
             />
@@ -176,14 +228,16 @@ export default function GeneratePage() {
             value={script}
             onChange={(e) => setScript(e.target.value)}
             rows={10}
-            placeholder="Generated script will appear here. You can edit it manually."
+            placeholder="Generated script will appear here..."
             className="w-full rounded-xl border border-black/10 dark:border-white/15 bg-transparent p-4 font-mono text-sm outline-none focus:border-black/30 dark:focus:border-white/30 transition-colors"
           />
         </div>
 
         <div className="mt-6 grid gap-4 sm:grid-cols-2">
           <div className="flex flex-col gap-2">
-            <label className="font-medium text-sm" htmlFor="background">Background clip</label>
+            <label className="font-medium text-sm" htmlFor="background">
+              Background clip
+            </label>
             <select
               id="background"
               value={background}
@@ -191,9 +245,33 @@ export default function GeneratePage() {
               className="rounded-xl border border-black/10 dark:border-white/15 bg-transparent p-2.5 text-sm outline-none"
             >
               {assets?.backgrounds.map((b) => (
-                <option key={b.file} value={b.file}>{b.name}</option>
+                <option key={b.file} value={b.file}>
+                  {b.name}
+                </option>
               ))}
             </select>
+          </div>
+        </div>
+
+        <div className="mt-6 rounded-xl border border-black/10 dark:border-white/15 p-4">
+          <h3 className="font-medium text-sm mb-2">Characters &amp; Voices</h3>
+          <div className="grid gap-3 sm:grid-cols-2">
+            {selectedPreset.speakers.map((s) => (
+              <div
+                key={s.name}
+                className="flex items-center gap-3 rounded-lg border border-black/5 dark:border-white/5 bg-black/5 dark:bg-white/5 p-3"
+              >
+                <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-black/10 dark:bg-white/10 text-sm font-bold">
+                  {s.name[0]}
+                </div>
+                <div className="min-w-0">
+                  <div className="text-sm font-medium">{s.name}</div>
+                  <div className="text-[11px] text-black/40 dark:text-white/40 truncate">
+                    Voice: {s.voiceFile} &middot; Image: {s.characterImage}
+                  </div>
+                </div>
+              </div>
+            ))}
           </div>
         </div>
 
@@ -211,7 +289,8 @@ export default function GeneratePage() {
           {job && (
             <div className="text-sm">
               <p>
-                Status: <span className="font-medium">{job.status}</span> &mdash; {job.message}
+                Status: <span className="font-medium">{job.status}</span>{" "}
+                &mdash; {job.message}
               </p>
               {job.status === "error" && job.error && (
                 <p className="text-red-500 mt-1">{job.error}</p>
