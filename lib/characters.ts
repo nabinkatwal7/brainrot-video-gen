@@ -34,8 +34,8 @@ Stewie: That was a gasp of horror, you imbecile.`,
     name: "Breaking Bad",
     description: "Walter White & Jesse Pinkman — the chemistry duo. Walt is serious and intense, Jesse is energetic and slang-filled.",
     speakers: [
-      { name: "Walter", voiceFile: "voice-walter.wav", characterImage: "speaker-a.png", style: "serious, intense, methodical, teacher-like" },
-      { name: "Jesse", voiceFile: "voice-jesse.wav", characterImage: "speaker-b.png", style: "energetic, slang, emotional, yo" },
+      { name: "Walter", voiceFile: "voice-walter.wav", characterImage: "walter-white.png", style: "serious, intense, methodical, teacher-like" },
+      { name: "Jesse", voiceFile: "voice-jesse.wav", characterImage: "jesse-pinkman.png", style: "energetic, slang, emotional, yo" },
     ],
     defaultScript: `Walter: Jesse, we need to cook. The numbers don't lie.
 Jesse: Yo Mr. White, you sure about this? Last time was intense, man.
@@ -49,8 +49,8 @@ Jesse: 99.1? That's like, A-plus in my book, man!`,
     name: "GTA San Andreas",
     description: "CJ (Carl Johnson) — the iconic solo character. Perfect for motivational/reluctant meme content.",
     speakers: [
-      { name: "CJ", voiceFile: "voice-cj.wav", characterImage: "speaker-a.png", style: "street-wise, tired, reluctant, iconic" },
-      { name: "CJ2", voiceFile: "voice-cj.wav", characterImage: "speaker-b.png", style: "motivational, determined" },
+      { name: "CJ", voiceFile: "voice-cj.wav", characterImage: "cj-char.png", style: "street-wise, tired, reluctant, iconic" },
+      { name: "CJ2", voiceFile: "voice-cj.wav", characterImage: "cj-char.png", style: "motivational, determined" },
     ],
     defaultScript: `CJ: Ah shit, here we go again. Every time I try to get out, they pull me back in.
 CJ2: Come on CJ, you gotta stay focused! The Grove Street family needs you!
@@ -64,8 +64,8 @@ CJ2: Don't remind me. Let's just get this over with.`,
     name: "SpongeBob SquarePants",
     description: "SpongeBob & best friend energy — optimistic and clueless meets sarcastic realism.",
     speakers: [
-      { name: "SpongeBob", voiceFile: "voice-spongebob.wav", characterImage: "speaker-a.png", style: "optimistic, high-energy, naive, enthusiastic" },
-      { name: "Squidward", voiceFile: "voice-a.wav", characterImage: "speaker-b.png", style: "miserable, sarcastic, deadpan, annoyed" },
+      { name: "SpongeBob", voiceFile: "voice-spongebob.wav", characterImage: "spongebob-char.png", style: "optimistic, high-energy, naive, enthusiastic" },
+      { name: "Squidward", voiceFile: "voice-a.wav", characterImage: "squidward-char.png", style: "miserable, sarcastic, deadpan, annoyed" },
     ],
     defaultScript: `SpongeBob: I'M READY! I'M READY! I'M READY! Today is gonna be the best day ever!
 Squidward: Oh no. It's 6 AM and he's already at full volume. Somebody end my misery.

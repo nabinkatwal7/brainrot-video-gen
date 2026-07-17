@@ -17,6 +17,7 @@ import os
 
 os.environ.setdefault("COQUI_TOS_AGREED", "1")
 
+import subprocess
 from contextlib import asynccontextmanager
 from pathlib import Path
 from tempfile import NamedTemporaryFile
@@ -51,6 +52,7 @@ class SynthesizeRequest(BaseModel):
     text: str
     speaker_wav: str
     language: str = LANGUAGE
+    speed: float = 1.0
 
 
 @app.get("/health")
@@ -82,5 +84,23 @@ def synthesize(req: SynthesizeRequest):
         )
     except Exception as exc:
         raise HTTPException(status_code=500, detail=f"synthesis failed: {exc}") from exc
+
+    # Apply speed adjustment if needed
+    if abs(req.speed - 1.0) > 0.01:
+        import subprocess
+        sped = NamedTemporaryFile(suffix=".wav", delete=False)
+        sped.close()
+        try:
+            subprocess.run(
+                ["ffmpeg", "-y", "-i", out.name,
+                 "-filter:a", f"atempo={req.speed}",
+                 "-vn", sped.name],
+                capture_output=True, check=True, timeout=30,
+            )
+            os.unlink(out.name)
+            return FileResponse(sped.name, media_type="audio/wav", filename="line.wav")
+        except Exception:
+            # fallback: return original if speed change fails
+            os.unlink(sped.name)
 
     return FileResponse(out.name, media_type="audio/wav", filename="line.wav")
