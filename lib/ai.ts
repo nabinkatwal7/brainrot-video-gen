@@ -1,4 +1,5 @@
-const GEMINI_API_URL = "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent";
+const GEMINI_API_URL =
+  "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent";
 
 function getApiKey(): string | null {
   return process.env.GEMINI_API_KEY ?? null;
@@ -39,7 +40,9 @@ Rules:
 
       if (!response.ok) {
         const error = await response.text().catch(() => "");
-        throw new Error(`Gemini API error (${response.status}): ${error.slice(0, 200)}`);
+        throw new Error(
+          `Gemini API error (${response.status}): ${error.slice(0, 200)}`,
+        );
       }
 
       const data = await response.json();
