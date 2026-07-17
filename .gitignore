@@ -39,3 +39,10 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# brainify: python sidecar venv, wheel cache, and generated output
+/tts-service/.venv
+/tts-service/wheel-cache
+/public/generated
+/output
+

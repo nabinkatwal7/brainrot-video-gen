@@ -1,0 +1,15 @@
+# Installed via:
+#   uv venv --python 3.11
+#   uv pip install -r requirements.txt
+#   uv pip install torch torchaudio torchcodec --index-url https://download.pytorch.org/whl/cpu
+#
+# Notes:
+# - torch/torchaudio/torchcodec are intentionally NOT pinned here; install the CPU (or CUDA,
+#   if you have an NVIDIA GPU) build from https://pytorch.org/get-started/locally/ separately.
+# - transformers is pinned below 5.x: coqui-tts 0.27.5 calls a helper
+#   (transformers.pytorch_utils.isin_mps_friendly) that transformers removed in 5.x.
+fastapi>=0.115
+uvicorn[standard]>=0.30
+coqui-tts>=0.26
+transformers==4.57.1
+soundfile>=0.12
