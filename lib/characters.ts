@@ -19,8 +19,8 @@ export const CHARACTER_PRESETS: CharacterPreset[] = [
     name: "Family Guy",
     description: "Peter & Stewie — the classic brainrot duo.",
     speakers: [
-      { name: "Peter", voiceFile: "voice-peter.wav", characterImage: "Peter.png", style: "loud, impulsive, not very bright, enthusiastic" },
-      { name: "Stewie", voiceFile: "voice-stewie.wav", characterImage: "Stewie.png", style: "sophisticated, sarcastic, big words, British accent" },
+      { name: "Peter", voiceFile: "voice-peter.wav", characterImage: "peter-char.png", style: "loud, impulsive, not very bright, enthusiastic" },
+      { name: "Stewie", voiceFile: "voice-stewie.wav", characterImage: "stewie-char.png", style: "sophisticated, sarcastic, big words, British accent" },
     ],
     defaultScript: `Peter: Hey Lois, look! I'm a comedian!
 Stewie: Oh good Lord, here we go.
@@ -32,8 +32,8 @@ Stewie: That's not even how jokes work, you imbecile.`,
     name: "Breaking Bad",
     description: "Walter White & Jesse Pinkman — the chemistry duo.",
     speakers: [
-      { name: "Walter", voiceFile: "voice-walter.wav", characterImage: "walter-white.png", style: "serious, intense, methodical, teacher-like" },
-      { name: "Jesse", voiceFile: "voice-jesse.wav", characterImage: "jesse-pinkman.png", style: "energetic, slang, emotional, yo" },
+      { name: "Walter", voiceFile: "voice-walter.wav", characterImage: "walter-char.png", style: "serious, intense, methodical, teacher-like" },
+      { name: "Jesse", voiceFile: "voice-jesse.wav", characterImage: "jesse-char.png", style: "energetic, slang, emotional, yo" },
     ],
     defaultScript: `Walter: Jesse, we need to cook.
 Jesse: Yo Mr. White, you sure about this?
@@ -59,7 +59,7 @@ CJ2: That's the life we chose, homie.`,
     description: "SpongeBob & Squidward — optimism vs misery.",
     speakers: [
       { name: "SpongeBob", voiceFile: "voice-spongebob.wav", characterImage: "spongebob-char.png", style: "optimistic, high-energy, naive" },
-      { name: "Squidward", voiceFile: "voice-a.wav", characterImage: "squidward-char.png", style: "miserable, sarcastic, deadpan, annoyed" },
+      { name: "Squidward", voiceFile: "squidward-voice.wav", characterImage: "squidward-char.png", style: "miserable, sarcastic, deadpan, annoyed" },
     ],
     defaultScript: `SpongeBob: I'M READY! I'M READY! I'M READY!
 Squidward: Oh no. It's 6 AM and he's already at full volume.
@@ -71,8 +71,8 @@ Squidward: The last thing I want is to spend my day with you.`,
     name: "Rick & Morty",
     description: "Rick Sanchez & Morty Smith — genius drunk grandpa and anxious grandson.",
     speakers: [
-      { name: "Rick", voiceFile: "voice-b.wav", characterImage: "rick-char.png", style: "genius, drunk, burping, nihilistic, sarcastic" },
-      { name: "Morty", voiceFile: "voice-a.wav", characterImage: "morty-char.png", style: "anxious, nervous, high-pitched, reluctant" },
+      { name: "Rick", voiceFile: "rick-voice.wav", characterImage: "rick-char.png", style: "genius, drunk, burping, nihilistic, sarcastic" },
+      { name: "Morty", voiceFile: "morty-voice.wav", characterImage: "morty-char.png", style: "anxious, nervous, high-pitched, reluctant" },
     ],
     defaultScript: `Rick: Listen Morty, I need you to climb into this portal.
 Morty: Aw jeez Rick, I don't know about this.
@@ -85,8 +85,8 @@ Rick: "Almost" is the key word, Morty. Almost.`,
     name: "Big Bang Theory",
     description: "Sheldon Cooper & Leonard Hofstadter — genius physicist and patient roommate.",
     speakers: [
-      { name: "Sheldon", voiceFile: "voice-b.wav", characterImage: "sheldon-char.png", style: "arrogant, genius, socially clueless, pedantic" },
-      { name: "Leonard", voiceFile: "voice-a.wav", characterImage: "leonard-char.png", style: "patient, sarcastic, resigned, long-suffering" },
+      { name: "Sheldon", voiceFile: "sheldon-voice.wav", characterImage: "sheldon-char.png", style: "arrogant, genius, socially clueless, pedantic" },
+      { name: "Leonard", voiceFile: "leonard-voice.wav", characterImage: "leonard-char.png", style: "patient, sarcastic, resigned, long-suffering" },
     ],
     defaultScript: `Sheldon: Leonard, I've been thinking.
 Leonard: That's always dangerous.
@@ -99,8 +99,8 @@ Sheldon: It's 2.7 degrees cooler and has optimal TV viewing angles.`,
     name: "Joey & Chandler",
     description: "Joey Tribbiani & Chandler Bing — dumb himbo and sarcastic king.",
     speakers: [
-      { name: "Joey", voiceFile: "voice-b.wav", characterImage: "joey-char.png", style: "dumb, hungry, ladies man, how you doin" },
-      { name: "Chandler", voiceFile: "voice-a.wav", characterImage: "chandler-char.png", style: "sarcastic, witty, uses jokes to deflect" },
+      { name: "Joey", voiceFile: "joey-voice.wav", characterImage: "joey-char.png", style: "dumb, hungry, ladies man, how you doin" },
+      { name: "Chandler", voiceFile: "chandler-voice.wav", characterImage: "chandler-char.png", style: "sarcastic, witty, uses jokes to deflect" },
     ],
     defaultScript: `Joey: Hey Chandler, I'm hungry.
 Chandler: When aren't you hungry?
@@ -113,8 +113,8 @@ Joey: That was an appetizer. The real meal starts now.`,
     name: "Ross & Chandler",
     description: "Ross Geller & Chandler Bing — nerdy paleontologist and sarcastic best friend.",
     speakers: [
-      { name: "Ross", voiceFile: "voice-b.wav", characterImage: "ross-char.png", style: "nerdy, whiny, dramatic, dinosaur obsessed" },
-      { name: "Chandler", voiceFile: "voice-a.wav", characterImage: "chandler-char.png", style: "sarcastic, witty, hilarious, unimpressed" },
+      { name: "Ross", voiceFile: "ross-voice.wav", characterImage: "ross-char.png", style: "nerdy, whiny, dramatic, dinosaur obsessed" },
+      { name: "Chandler", voiceFile: "chandler-voice.wav", characterImage: "chandler-char.png", style: "sarcastic, witty, hilarious, unimpressed" },
     ],
     defaultScript: `Ross: Did you know the T-Rex had tiny arms?
 Chandler: Fascinating. Can we talk about something else?
@@ -127,8 +127,8 @@ Ross: WE WERE ON A BREAK!`,
     name: "Clarkson's Farm",
     description: "Jeremy Clarkson & Kaleb Cooper — clueless posh farmer and actual farmer.",
     speakers: [
-      { name: "Jeremy", voiceFile: "voice-b.wav", characterImage: "jeremy-char.png", style: "loud, posh, clueless about farming, overconfident" },
-      { name: "Caleb", voiceFile: "voice-a.wav", characterImage: "caleb-char.png", style: "dumbfounded, genuine farmer, confused by Jeremy" },
+      { name: "Jeremy", voiceFile: "jeremy-voice.wav", characterImage: "jeremy-char.png", style: "loud, posh, clueless about farming, overconfident" },
+      { name: "Caleb", voiceFile: "kaleb-voice.wav", characterImage: "caleb-char.png", style: "dumbfounded, genuine farmer, confused by Jeremy" },
     ],
     defaultScript: `Jeremy: Right then Caleb, what's first on the agenda?
 Caleb: Well... we need to plough the field, Mr. Clarkson.
@@ -144,8 +144,8 @@ export const REDDIT_STORY_PRESETS: CharacterPreset[] = [
     name: "Reddit x Family Guy",
     description: "Peter reads a wild Reddit AITA post and reacts with Stewie.",
     speakers: [
-      { name: "Peter", voiceFile: "voice-peter.wav", characterImage: "Peter.png", style: "loud, impulsive, reading Reddit out loud" },
-      { name: "Stewie", voiceFile: "voice-stewie.wav", characterImage: "Stewie.png", style: "sophisticated, commenting sarcastically on the story" },
+      { name: "Peter", voiceFile: "voice-peter.wav", characterImage: "peter-char.png", style: "loud, impulsive, reading Reddit out loud" },
+      { name: "Stewie", voiceFile: "voice-stewie.wav", characterImage: "stewie-char.png", style: "sophisticated, commenting sarcastically on the story" },
     ],
     defaultScript: `Peter: AITA for refusing to let my brother borrow my car?
 Stewie: Oh this should be good. Let me guess, he crashed it.
@@ -159,8 +159,8 @@ Stewie: Because I live in this house, you imbecile.`,
     name: "Reddit x Rick & Morty",
     description: "Rick and Morty react to unhinged Reddit stories.",
     speakers: [
-      { name: "Rick", voiceFile: "voice-b.wav", characterImage: "rick-char.png", style: "cynical, drunk, commenting on Reddit drama" },
-      { name: "Morty", voiceFile: "voice-a.wav", characterImage: "morty-char.png", style: "shocked, horrified by the stories" },
+      { name: "Rick", voiceFile: "rick-voice.wav", characterImage: "rick-char.png", style: "cynical, drunk, commenting on Reddit drama" },
+      { name: "Morty", voiceFile: "morty-voice.wav", characterImage: "morty-char.png", style: "shocked, horrified by the stories" },
     ],
     defaultScript: `Rick: Look at this AITA post Morty. This guy ate his roommate's food.
 Morty: Aw jeez Rick, that's not that bad.
