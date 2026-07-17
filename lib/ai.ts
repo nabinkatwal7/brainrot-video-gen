@@ -13,7 +13,8 @@ interface ScriptResult {
 
 export async function generateScript(
   topic: string,
-  preset?: CharacterPreset
+  preset?: CharacterPreset,
+  storyMode = false
 ): Promise<ScriptResult> {
   const p = preset ?? CHARACTER_PRESETS[0];
   const speakerNames = p.speakers.map((s) => s.name);
@@ -23,7 +24,27 @@ export async function generateScript(
 
   const apiKey = getApiKey();
 
-  const prompt = `Generate a short, funny dialogue between ${speakerNames.join(" and ")} from "${p.name}" about the topic: "${topic}".
+  let prompt: string;
+  if (storyMode) {
+    prompt = `Generate a short "Reddit reacts" video script. ${speakerNames.join(" and ")} from "${p.name}" read a hilarious Reddit AITA / TIFU / relationship post about: "${topic}".
+
+Character styles:
+${speakerStyles}
+
+Format EXACTLY like this (one speaker reads the story, the other reacts):
+${speakerNames[0]}: <reading the Reddit post>
+${speakerNames[1]}: <reacting to it>
+${speakerNames[0]}: <continues the story>
+${speakerNames[1]}: <reacts again>
+(continue for 6-10 lines total)
+
+Rules:
+- Make it funny and in-character
+- 6-10 lines total
+- Every line starts with "${speakerNames[0]}:" or "${speakerNames[1]}:"
+- No narration or stage directions`;
+  } else {
+    prompt = `Generate a short, funny dialogue between ${speakerNames.join(" and ")} from "${p.name}" about the topic: "${topic}".
 
 Character styles:
 ${speakerStyles}
@@ -34,9 +55,10 @@ ${speakerNames[1]}: <dialogue>
 
 Rules:
 - Make it hilarious and in-character
-- Keep it 6-10 lines total (3-5 exchanges)
+- Keep it 6-10 lines total
 - Every line must start with "${speakerNames[0]}:" or "${speakerNames[1]}:"
 - No narration, no stage directions`;
+  }
 
   if (apiKey) {
     try {
@@ -60,9 +82,8 @@ Rules:
       const lines = text
         .split("\n")
         .map((l: string) => l.trim())
-        .filter(
-          (l: string) =>
-            new RegExp(`^(${speakerNames.join("|")}):`, "i").test(l)
+        .filter((l: string) =>
+          new RegExp(`^(${speakerNames.map(s => escapeRegex(s)).join("|")}):`, "i").test(l)
         )
         .map((l: string) =>
           l.replace(/^\*+/g, "").replace(/\*+$/g, "").trim()
@@ -77,4 +98,8 @@ Rules:
   }
 
   return { script: p.defaultScript };
+}
+
+function escapeRegex(s: string): string {
+  return s.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
 }
